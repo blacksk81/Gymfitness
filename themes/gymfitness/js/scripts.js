@@ -1,4 +1,29 @@
 jQuery(document).ready( $ =>  {
+
+	//buscado input 1208321oebedjlwq
+	$('#btn_buscar').on('click', function(){
+
+		var termino = $('#buscar').val();
+		
+		alert(termino);
+
+		// var postData ={
+		// 	action: 'buscarResultados', // manda a la function del archivo function.php
+		// 	buscar: termino //bsucar sale del name del input delpage buscador
+		// }
+
+
+		// jQuery.ajax({
+		// 	url: admin_url.ajax_url, 
+		// 	type: 'post',
+		// 	data: postData
+		// }).done(function(responde){
+		// 	console.log(responde);
+		// });
+	});
+
+
+
     //menu movil responsive
     $('.site-header .menu-principal .menu').slicknav({
         label: '',

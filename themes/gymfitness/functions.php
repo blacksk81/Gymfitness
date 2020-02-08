@@ -1,5 +1,48 @@
 <?php
 
+//buscado input 1208321oebedjlwq
+
+	function buscarResultados(){
+		$buscar = $_POST['buscar']; 
+
+		$args = array(
+			'post_type' => 'receta',
+			'posts_per_page' => -1,
+			's' => $buscar  // busca por el titulo de CPT
+		);
+
+		$posts = get_posts($args); // devuelve el arreglo como json  get_posts
+		$listado = array(); 
+		foreach ($posts as $post) {
+			setup_postdata( $post ); // añade informacion al post conusltado
+			$listado[] = array (
+				'objeto' => $post,
+				'id' => $post->ID,
+				'nombre' => $post->post_title,
+				'contenido' => $post->post_content,
+				'imagen' => get_the_post_thumbnail($post->ID, 'cajas' ),
+				'link' => get_permalink( $post->ID )
+
+			); // se pone [vacio] para que lo agrege alfinal del arreglo..
+		}
+		header("Content-type: application/json");
+		echo json_decode( $listado );
+		die;
+
+	}
+	add_action( 'wp_ajax_nopriv_buscarResultados','buscarResultados' );
+	add_action( 'wp_ajax_buscarResultados','buscarResultados' );
+
+	wp_localize_script( 
+		'scriptsjs', 
+		'admin_url', 
+		array(
+			'ajax_url' => admin_url('admin-ajax.php')
+		)
+	);
+
+
+
 /* Consultar reutilizable */
 require get_template_directory() .'/inc/queries.php';
 
@@ -141,6 +184,10 @@ function gymfitness_hero_imagen(){
 	wp_add_inline_style( 'custom', $imagen_destacada_css );
 
 }
-add_action( 'init', 'gymfitness_hero_imagen' )
+add_action( 'init', 'gymfitness_hero_imagen' );
+
+
+
+
 
 ?>
